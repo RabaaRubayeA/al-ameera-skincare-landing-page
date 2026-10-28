@@ -189,9 +189,9 @@ nav{
 
 .whatsapp-logo{
   width: 3rem;
-  position: sticky;
-  bottom: 1rem;
-  right: 0rem;
+  position: fixed;
+  bottom: .5rem;
+  left: 0.5rem;
   z-index: 2000;
   transition: transform .5s ease;
 }
