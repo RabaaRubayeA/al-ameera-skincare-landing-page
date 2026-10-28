@@ -1,402 +1,232 @@
-import {products} from './products-data.js';
-import {bestProduct} from './best-seller-data.js';
-import {faqData} from './faq-data.js';
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>الأميرة</title>
+    <script type="module" src="index.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <nav>
+                <a href="/" class="brand-logo"><img src="assets/images/logo.jpg" alt="brand logo"></a>
+                <!-- <a href="/" class="brand-name">الأميرة</a> -->
+                <div class="nav-controls">
 
-const benefitsSection= document.getElementById('benefits');
-// variables for burgerMenu eventListener
-const burgerMenu= document.getElementById('burger-menu');
-const bar1= document.getElementById('bar1');
-const bar2= document.getElementById('bar2');
-const bar3= document.getElementById('bar3');
-const menu= document.getElementById('menu');
-// products section
-
-const productsSection= document.createElement('section');
-productsSection.className= 'products';
-productsSection.id= 'products';
-
-const sectionTitle= document.createElement('h3');
-sectionTitle.className= 'section-title';
-sectionTitle.textContent= 'أبرز المنتجات';
-
-productsSection.appendChild(sectionTitle);
-
-const sectionText= document.createElement('p');
-sectionText.className= 'section-text';
-sectionText.textContent= 'اكتشفي أساسيات العناية بالبشرة، المصممة بمكونات طبيعية لبشرة صحية ومشرقة.';
-
-productsSection.appendChild(sectionText);
-
-const productsGrid= document.createElement('div');
-productsGrid.className= 'products-grid';
-productsGrid.id= 'products-grid';
-
-
-const closingX= document.createElement('button');
-closingX.className= 'closing-x';
-closingX.textContent= 'X';
-closingX.type= 'button';
-closingX.setAttribute('aria-label', 'Close product details');
-
-const modalContainer= document.createElement('div');
-modalContainer.className= 'modal-container hide';
-
-//populating the DOM
-products.forEach(product => {
-    const productCard= document.createElement('div');
-    productCard.className= 'product-card';
-    const productImage= document.createElement('img');
-    productImage.src= product.image;
-    productImage.alt= product.name;
-
-    const productBadge= document.createElement('div');
-    productBadge.className= 'product-badge';
-    productBadge.textContent= product.badge;
-
-    const productName= document.createElement('p');
-    productName.className= 'product-name';
-    productName.textContent= product.name;
-    
-    const rating= document.createElement('div');
-    rating.className= 'rating';
-        for(let i=0; i<product.rating; i++){
-
-            const star= document.createElement('img');
-            star.src= 'assets/images/star-svgrepo-com.svg'
-            star.alt='star';
-            rating.appendChild(star);
-        }                      
-
-    const viewDetailsButton= document.createElement('button');
-    viewDetailsButton.className= 'view-details-button';
-    viewDetailsButton.dataset.productId= product.id;
-    viewDetailsButton.textContent= 'تفاصيل المنتج';
-
-    const price= document.createElement('p');
-    price.className= 'price';
-    price.textContent= `${product.price} ريال`;
-
-productCard.appendChild(productImage);
-productCard.appendChild(productBadge);
-productCard.appendChild(productName);
-productCard.appendChild(rating);
-productCard.appendChild(viewDetailsButton);
-productCard.appendChild(price);
-productsGrid.appendChild(productCard);
-})
-productsSection.appendChild(productsGrid);
-benefitsSection.after(productsSection);
-
-
-burgerMenu.addEventListener('click',()=>{
-    const isOpen = menu.classList.toggle("active");
-    bar1.classList.toggle("rotate1");
-    bar2.classList.toggle("hide");
-    bar3.classList.toggle("rotate2");
-    
-    burgerMenu.setAttribute(
-        "aria-label",
-        isOpen? "Close menu" : "Open menu"
-    );
-    
-})
-const menuList= document.querySelector('ul');
-
-menuList.addEventListener('click', (event)=>{
-    const clickedListElement= event.target.tagName;
-    if(clickedListElement === 'A'){
-        menu.classList.toggle('active');
-        bar1.classList.toggle("rotate1");
-        bar2.classList.toggle("hide");
-        bar3.classList.toggle("rotate2");
-        burgerMenu.setAttribute("aria-label", "Open menu");
-    }else{
-        return;
-    }
-})
-
-
-// this part is to dynamically display the modal of the product when the user
-//clicks on (View Details) button, used event delegation
-
-
-const overlay= document.createElement('div');
-overlay.className= 'overlay hide';
-productsGrid.appendChild(overlay);
-
-
-productsGrid.addEventListener('click',(event)=>{
-    
-    const clickedElement= event.target;
-
-    if (!clickedElement.classList.contains('view-details-button')) {
-            return;
-        }
-
-    const clickedId= clickedElement.dataset.productId;
-    const clickedProduct= products.find(product=>{
-            return product.id === clickedId;
-    });
-
-if (!clickedProduct) {
-    return;
-}
-
-    modalContainer.innerHTML= '';
-   
-            const modalImage= document.createElement('img');
-            modalImage.src= clickedProduct.image;
-            modalImage.alt= clickedProduct.name;
-            
-            const modalProductName= document.createElement('p');
-            modalProductName.className= 'product-name';
-            modalProductName.textContent= clickedProduct.name;
-
-            const productDescription= document.createElement('p');
-            productDescription.className= 'product-description';
-            productDescription.textContent= clickedProduct.description;
-
-            const size= document.createElement('p');
-            size.className= 'size';
-            size.textContent= clickedProduct.size;
-            const rating= document.createElement('div');
-            rating.className= 'rating';
-                for(let i=0; i<clickedProduct.rating; i++){
-                    const star= document.createElement('img');
-                    star.src= 'assets/images/star-svgrepo-com.svg'
-                    star.alt='star';
-                    rating.appendChild(star);
-                }
+                    <button class="burger-menu" id="burger-menu" aria-label="">
+                        <div class="bar" id="bar1"></div>
+                        <div class="bar" id="bar2"></div>
+                        <div class="bar" id="bar3"></div>
+                    </button>
                 
-                const shopNowButton= document.createElement('a');
-            shopNowButton.className= 'shop-now-button';
-            shopNowButton.textContent= 'اطلبي الآن';
-            shopNowButton.href= `https://wa.me/967780061237?text=${encodeURIComponent(clickedProduct.whatsappMessage)}`;
-
-        // put each dom element in its parent
-            modalContainer.appendChild(closingX);
-            modalContainer.appendChild(modalImage);
-            modalContainer.appendChild(modalProductName);
-            modalContainer.appendChild(productDescription);
-            modalContainer.appendChild(size);
-            modalContainer.appendChild(rating);
-            modalContainer.appendChild(shopNowButton);
-            productsGrid.appendChild(modalContainer);
-
-            overlay.classList.remove('hide');
-            modalContainer.classList.remove('hide');
-    
-});
-
-//   Best Seller section start
-const bestSellerProduct= document.createElement('section');
-bestSellerProduct.className= 'best-seller';
-
-const bestSectionTitle= document.createElement('h3');
-bestSectionTitle.className= 'section-title';
-bestSectionTitle.textContent= 'الأكثر مبيعاً';
-
-bestSellerProduct.appendChild(bestSectionTitle);
-
-const bestSellerCard= document.createElement('div');
-bestSellerCard.className= 'best-seller-card';
-
-const bestSellerImage= document.createElement('img');
-bestSellerImage.className= 'best-seller-image';
-bestSellerImage.src= bestProduct.image;
-bestSellerImage.alt= bestProduct.name;
-
-bestSellerCard.appendChild(bestSellerImage);
-
-const bestSellerName= document.createElement('p');
-bestSellerName.className= 'product-name';
-bestSellerName.textContent= bestProduct.name;
-
-bestSellerCard.appendChild(bestSellerName);
-
-const bestSellerDescription= document.createElement('p');
-bestSellerDescription.className= 'best-seller-description';
-bestSellerDescription.textContent= bestProduct.description;
-
-bestSellerCard.appendChild(bestSellerDescription);
-
-const bestSellerBadge= document.createElement('div');
-bestSellerBadge.className= 'product-badge';
-bestSellerBadge.id= 'best-seller-badge';
-bestSellerBadge.textContent= bestProduct.badge;
-
-bestSellerCard.appendChild(bestSellerBadge);
-
-const bestSellerRating= document.createElement('div');
-bestSellerRating.className= 'rating';
-const ratingCounter=bestProduct.rating;
-for(let i=0; i<ratingCounter; i++){
-    const star= document.createElement('img');
-    star.src= "assets/images/star-svgrepo-com.svg";
-    bestSellerRating.appendChild(star);
-}
-
-bestSellerCard.appendChild(bestSellerRating);
-
- const shopNowButton= document.createElement('a');
-    shopNowButton.className= 'shop-now-button';
-    shopNowButton.textContent= 'اطلبي الآن';
-    shopNowButton.href= `https://wa.me/967780061237?text=${encodeURIComponent(bestProduct.whatsappMessage)}`;
-
-bestSellerCard.appendChild(shopNowButton);
-
-const bestSellerPrice= document.createElement('p');
-bestSellerPrice.className= 'price';
-bestSellerPrice.textContent= `${bestProduct.price} ريال`;
-bestSellerCard.appendChild(bestSellerPrice);
-
-
-bestSellerProduct.appendChild(bestSellerCard);
-
-
-productsSection.after(bestSellerProduct);
-
-// Best Seller section end
-
-
-
-closingX.addEventListener('click', () =>{
-    modalContainer.classList.add("hide");
-    overlay.classList.add("hide");
-})
-//Testimonials
-
-
-// FAQ
-const faqSection= document.createElement('section');
-faqSection.className= 'faq';
-faqSection.id= 'faq';
-
-const faqSectionTitle= document.createElement('h3');
-faqSectionTitle.className= 'section-title';
-faqSectionTitle.textContent='FAQ';
-
-faqSection.appendChild(faqSectionTitle);
-const caretSvg= `<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2929 8.79289C11.6834 8.40237 12.3166 8.40237 12.7071 8.79289L17.7071 13.7929C18.0976 14.1834 18.0976 14.8166 17.7071 15.2071C17.3166 15.5976 16.6834 15.5976 16.2929 15.2071L12 10.9142L7.70711 15.2071C7.31658 15.5976 6.68342 15.5976 6.29289 15.2071C5.90237 14.8166 5.90237 14.1834 6.29289 13.7929L11.2929 8.79289Z" fill="#375741"></path> </g></svg>`;
-
- 
-faqData.forEach(faqItem=>{
-    const qAndA= document.createElement('div');
-    qAndA.className= 'q-and-a';
-    
-    const questionCaretContainer= document.createElement('div');
-    questionCaretContainer.className= 'question-caret-container';
-    const question= document.createElement('p');
-    question.className= 'question';
-    question.textContent= faqItem.question;
-
-    questionCaretContainer.appendChild(question);
-    
-    const caret= document.createElement('button');
-    caret.className= 'caret';
-    caret.innerHTML= caretSvg;
-
-    caret.setAttribute('aria-controls', faqItem.id);
-    caret.setAttribute('aria-expanded', 'false');
-    
-    questionCaretContainer.appendChild(caret);
-
-    const answer= document.createElement('p');
-    answer.className= 'answer hide';
-    answer.id = faqItem.id;
-    answer.textContent= faqItem.answer;
-       
-    qAndA.appendChild(questionCaretContainer);
-    qAndA.appendChild(answer);
-
-    
-    faqSection.appendChild(qAndA);
-}); 
-const testimonialsSection= document.getElementById('testimonials');
-testimonialsSection.after(faqSection);
-
-faqSection.addEventListener('click', (event)=>{
-    
-    const caretButton= event.target.closest('.caret');
-    
-    if(!caretButton){
-        return;
-    }
-
-    const parentContainer= caretButton.closest('.q-and-a');
-    const targetAnswer= parentContainer.querySelector('.answer');
-    caretButton.classList.toggle('rotate180deg');
-    targetAnswer.classList.toggle('hide');
-
-    
-    const isOpen = !targetAnswer.classList.contains('hide');
-    caretButton.setAttribute('aria-expanded', isOpen);
-    
-})
-
-
-// newsletter
-
-const errorMessage= document.getElementById('error-message');
-
-// a function to validate the user email
-function validateEmail(email) {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-};
-
-const signUpForm = document.getElementById('sign-up-form');
-const emailInput= document.getElementById('user-email');
-const submitBtn = signUpForm.querySelector('button[type="submit"]');
-
- emailInput.addEventListener('focus',()=>{
-            errorMessage.classList.add('hide');
+                    <ul class="menu " id="menu">
+                        <li class="menu-item"><a href="#home">الرئيسية</a></li>
+                        <li class="menu-item"><a href="#benefits">لماذا الأميرة</a></li>
+                        <li class="menu-item"><a href="#products">منتجاتنا</a></li>
+                        <li class="menu-item"><a href="#testimonials">آراء الأميرات</a></li>
+                        <li class="menu-item"><a href="#faq">الاسئلة الشائعة</a></li>
+                        <li class="menu-item"><a href="#newsletter">تواصل</a></li>
+                        <li class="cta-button"><a href="#products" class="cta-link">اطلبي الآن</a></li>
+                    </ul>
+                </div>
             
-        })
+            </nav>
+        </div>
+    </header>
+    <main>
 
-signUpForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-   
-const emailValue = emailInput.value.trim();
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1 class="hero-title">نغذي بشرتك بما تستحق</h1>
+                <p class="section-text">اكتشفي سر النضارة الدائمة مع مجموعتنا الحصرية من منتجات العناية بالبشرة الطبيعية 100%. صُنعت تركيباتنا بعناية فائقة من مستخلصات نباتية نقية لتمنح بشرتك الغذاء العميق، والترطيب المثالي، والإشراقة الحيوية التي طالما حلمتِ بها.</p>
+                <div class="cta-button">
+                    <a href="#products" class="cta-link">تسوقي الآن</a>
+                </div>
 
-    if (!validateEmail(emailValue)){
-        errorMessage.classList.remove('hide');
-        return;
-    }
+            </div>
+            <img src="assets/images/hero.jpg" alt="Skin care product" class="hero-image">
+            
+        </section>
+        <!-- hero section ends -->
+
+        <section class="benefits" id="benefits">
+            <h3 class="section-title">لماذا منتجات الأميرة؟</h3>
+            <div class="benefit-cards-container">
+                <div class="benefit-card">
+                    <h4 class="benefit-card-title">🌿 مكونات طبيعية 100%</h4>
+                    <p class="benefit-card-text">ودّعي المواد الكيميائية القاسية، وامنحي بشرتكِ حيوية دائمة مع تركيباتنا النباتية النقية والمختارة بعناية.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <h4 class="benefit-card-title">🌟 نتائج حقيقية من أول اسبوع.</h4>
+                    <p class="benefit-card-text">صُممت خصيصاً لتدعم مرونة بشرتكِ وتوازنها، وتمنحها الترطيب المثالي تحت أي ظرف مناخي و ستلاحظين تألقها من اول اسبوع.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <h4 class="benefit-card-title">✨ افضل الخامات</h4>
+                    <p class="benefit-card-text">تركيبة صُممت خصيصاً لتمنح بشرتكِ أقصى درجات الصحة والأمان، وتناسب مختلف أنواع البشرة.
+</p>
+                </div>
+
+                <div class="benefit-card">
+                    <h4 class="benefit-card-title">🚚 توصيل سريع</h4>
+                    <p class="benefit-card-text">لدينا خدمة توصيل الى جميع المحافظات</p>
+                </div>
 
 
-    const formData = new FormData(signUpForm);
-    formData.append("access_key", "32c331e7-b85d-4ef9-b27e-6274c9ce61b7");
+            </div><!-- small-cards-container end-->
+        </section><!-- why-pure-glow section end-->
 
-    const originalText = submitBtn.textContent;
 
-    submitBtn.textContent = "Sending...";
-    submitBtn.disabled = true;
+<!-- here is the place of products section-->
 
-    try {
-        const response = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            body: formData
-        });
+        <!-- <section class="best-seller">  -Best seller start-->
+            
+        <!--Best seller end-->
 
-        const data = await response.json();
+<!-- Testimonials section -->
+        <section class="testimonials" id="testimonials">   <!--Testimonials start-->
+            <h3 class="section-title">آراء الأميرات&#9829;</h3>
+            <div class="testimonials-container">
+                
+                <div class="testimonial-card">
+                    <div class="image-rating-container">
+                        <img src="assets/images/woman.png" alt="customer photo" class="customer-photo">
+                            <div class="rating">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                            </div>
+                    </div>
+                    <p class="review-text">استخدمت الورس لبشرتي وكانت النتيجة مذهلة حقاً، لاحظت نضارة فورية وتوحيداً ملحوظاً في لون البشرة خلال وقت قصير. أنصح بشدة بإضافته لروتينك اليومي للعناية.</p>
+                    <p class="name">عبير</p>
+                </div>
 
-        if (response.ok) {
-            alert("Success! Your message has been sent.");
-            signUpForm.reset();
-        } else {
-            alert("Error: " + data.message);
-        }
+                <div class="testimonial-card">
+                    <div class="image-rating-container">
+                        <img src="assets/images/woman.png" alt="customer photo" class="customer-photo">
+                            <div class="rating">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                            </div>
+                    </div>
+                    <p class="review-text">"هذا الصابون رائع جداً في تنظيف البشرة والتخلص من التصبغات الداكنة. أصبحت بشرتي أكثر إشراقاً ونعومة بعد استخدامه، وأنصح الجميع بتجربته للحصول على مظهر متألق."</p>
+                    <p class="name">صفاء عبدالرحمن<br>Graphic Designer at Bloom Creative</p>
+                </div>
 
-    } catch (error) {
-        alert("Something went wrong. Please try again.");
-    } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-});
+                <div class="testimonial-card">
+                    <div class="image-rating-container">
+                        <img src="assets/images/woman.png" alt="customer photo" class="customer-photo">
+                            <div class="rating">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                            </div>
+                    </div>
+                    <p class="review-text">"تجربتي مع عشبة الوسمة كانت ممتازة للغاية، أعادت الحيوية لشعري و غطت الشيب بشكل طبيعي وجعلت مظهري يبدو أكثر صحة وشباباً. منتج طبيعي يستحق التجربة وضعتها على شعري فقط لمدة نصف ساعة و كانت النتيجة رائعة."</p>
+                    <p class="name">ام سالم محسن<br>Content Creator</p>
+                </div>
 
- 
+                <div class="testimonial-card">
+                     <div class="image-rating-container">
+                        <img src="assets/images/woman.png" alt="customer photo" class="customer-photo">
+                            <div class="rating">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                                <img src="assets/images/star-svgrepo-com.svg" alt="">
+                            </div>
+                    </div>
+                    <p class="review-text">يعتبر مقشر قشر البرتقال خياري المفضل للتخلص من الخلايا الميتة وإعادة النضارة للوجه. يترك البشرة ناعمة ومنتعشة برائحة زكية، أنصح بإستخدامه أسبوعياً لنتائج مثالية.</p>
+                    <p class="name">ام احمد فاروق</p>
+                </div>
+
+                
+            </div>
+        </section> <!--Testimonials end-->
+
+
+ <!--FAQ section-->
+
+        <section class="newsletter" id="newsletter">
+            <form class="form-container"
+                id="sign-up-form"
+                action="https://api.web3forms.com/submit"
+                method="POST"
+                novalidate>
+                
+                <div class="label-error-container">           
+                <label for="user-email">البريد الالكتروني</label>
+                <p id="error-message" class="error-message hide">Valid email required</p>
+                </div>
+                <input type="email" id="user-email" name= "email" placeholder="email@company.com" required>
+                <button type="submit" class="submit-button">اشتراك</button>
+            </form>
+
+
+        </section>
+
+    </main>
+
+        <footer>
+            <div class="footer-container" id="contact">
+                <div class="footer-divs-container">
+                    <div class="pure-glow">
+                        <a href="/" class="brand-logo"><img src="assets/images/logo.jpg" alt="brand logo"></a>
+                        <!-- <h4 class="logo">الأميرة<br>Princess</h4> -->
+                        <p class="footer-text">عناية طبيعية بالبشرة صُممت خصيصاً لتغذية بشرتك وحمايتها.</p>
+                        <ul class="social-icons">
+                            <li class="social-icon"><a href="https://instagram.com\"><img class="social-logo" src="assets/images/instagram.svg" alt="instagram logo" class="instagram-icon"></a></li>
+                            <li class="social-icon"><a href="https://facebook.com\"><img class="social-logo" src="assets/images/facebook.svg" alt="facebook logo" class="facebook-icon"></a></li>
+                            <li class="social-icon"><a href="https://pinterest.com\"><img class="social-logo" src="assets/images/icons8-pinterest-48.png" alt="pinterest logo" class="Pinterest-icon"></a></li>
+                            <li class="social-icon"><a href="https://tiktok.com\"><img class="social-logo" src="assets/images/icons8-tik-tok-50.png" alt="tik tok logo" class="tik-tok-icon"></a></li>
+                        </ul>
+                    </div>
+                    <div class="quick-links">
+                        <ul class="footer-links">
+                            <li class="footer-item"><a href="#home">الرئيسية</a></li>
+                            <li class="footer-item"><a href="#products">منتجاتنا</a></li>
+                            <li class="footer-item"><a href="#benefits">لماذا الأميرة</a></li>
+                            <li class="footer-item"><a href="#testimonials">آراء الأميرات</a></li>
+                            <li class="footer-item"><a href="#faq">الاسئلة الشائعة</a></li>
+                            <li class="footer-item"><a href="#contact">تواصل</a></li>
+                        </ul>
+
+                    </div><!--qick-links end-->
+
+                    <div class="footer-contact">
+                        <p class="footer-text"><a href="mailto:rab3asalem@gmail.com">rab3asalem@gmail.com</a></p>
+                        <p class="footer-text">+967 رقم التواصل</p>
+                        <p class="footer-text">عدن/ اليمن</p>
+                    </div>
+
+                    <div class="footer-stay-updated">
+                        <p class="footer-text">انضمي إلى نشرتنا البريدية للحصول على نصائح حصرية للعناية بالبشرة.</p>
+                        <a href="#newsletter">اشتراك</a>
+                    </div>
+
+
+                </div>   <!--footer divs container end-->
+                <div class="attributes">
+                    <p class="copy-write">@ 2026 الأميرة</p>
+                    <p class="dev-name">تصميم و برمجة <a href="https://wa.me/967780061237">رابعة ربيع</a></p>
+                </div>
+            </div>
+        </footer>
+        <a href="https://wa.me/967780061237"><img src="assets/images/whatsapp.svg" alt="whatsapp button" class="whatsapp-logo"></a>
+    
+</body>
+</html>
+
+
+
